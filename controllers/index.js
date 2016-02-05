@@ -1,11 +1,11 @@
 var routeMain = require('./routes/main');
 var routeApi = require('./routes/api');
 
-function addRoutes(app) {
+function route(app) {
     app.use('/', routeMain);
     app.use('/api', routeApi);
 }
 
 module.exports = {
-    addRoutes: addRoutes
+    route: route
 };
