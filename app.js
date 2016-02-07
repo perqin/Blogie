@@ -22,9 +22,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 vitrines.serveStatic(app);
 
-// TODO : which first
 controller.route(app);
 vitrines.route(app);
+controller.routeDefault(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

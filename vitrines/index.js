@@ -12,6 +12,7 @@ function loadAllVitrines(vs) {
 function Vitrines() {
     this.vitrines = [];
     this.rootDirectory = path.join(__dirname, 'vitrines');
+
     this.serveStatic = function (app) {
         for (var i = 0; i < this.vitrines.length; ++i) {
             this.vitrines[i].serveStatic(app, this.rootDirectory);
