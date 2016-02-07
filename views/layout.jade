@@ -1,7 +1,16 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+    body
+        div.top-container
+            block top-view
+        div.header-container
+            block header-view
+        div.nav-container
+            block nav-view
+        div.vitrine-container
+            block vitrine-view
+        div.footer-container
+            block footer-view
