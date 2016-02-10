@@ -1,9 +1,22 @@
+// get config first
+var fs = require('fs');
+var config;
+try {
+    fs.accessSync('config.js', fs.R_OK);
+    //noinspection JSFileReferences
+    config = require('./config');
+} catch (err) {
+    config = require('./config_default');
+    console.log('Cannot read config.js, use default config. Error : ', err);
+}
 var express = require('express');
 var vitrines = require('./vitrines/index')();
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var RedisSessionStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
 
 var controller = require('./controllers/index');
@@ -18,7 +31,20 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser(config.sessionSecret));
+app.use(session({
+    cookie: { path: '/', httpOnly: true, secure: false, maxAge: config.sessionCookieMaxAge * 1000 },
+    name: '',
+    resave: false,  // TODO : confused about the meaning of this option
+    rolling: true,
+    saveUninitialized: false,
+    secret: config.sessionSecret,
+    store: new RedisSessionStore({
+        host: 'localhost',
+        port: 6379,
+        ttl: config.sessionCookieMaxAge
+    })
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 vitrines.serveStatic(app);
 
