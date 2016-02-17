@@ -2,7 +2,7 @@
  * Secret option for express-session
  */
 
-exports.sessionSecret = '';
+exports.sessionSecret = 'blogie cat';
 
 /**
  * Cookie maxAge used in session in seconds.

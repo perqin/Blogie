@@ -7,10 +7,12 @@ try {
     config = require('./config');
 } catch (err) {
     config = require('./config_default');
-    console.log('Cannot read config.js, use default config. Error : ', err);
+    console.warn('Cannot read config.js, use default config.');
+    console.warn(err);
 }
 var express = require('express');
-var vitrines = require('./vitrines/index')();
+var vitrines = require('./vitrines/index');
+var themeManager = require('./themes/index');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -34,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(config.sessionSecret));
 app.use(session({
     cookie: { path: '/', httpOnly: true, secure: false, maxAge: config.sessionCookieMaxAge * 1000 },
-    name: '',
+    name: 'blogie.sid',
     resave: false,  // TODO : confused about the meaning of this option
     rolling: true,
     saveUninitialized: false,
@@ -47,6 +49,7 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 vitrines.serveStatic(app);
+themeManager.serveStatic(app);
 
 controller.route(app);
 vitrines.route(app);

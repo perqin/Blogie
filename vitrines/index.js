@@ -10,23 +10,24 @@ function loadAllVitrines(vs) {
 }
 
 function Vitrines() {
-    this.vitrines = [];
-    this.rootDirectory = path.join(__dirname, 'vitrines');
+    var self = this;
+    self.vitrines = [];
+    self.serveStatic = serveStatic;
+    self.route = route;
 
-    this.serveStatic = function (app) {
-        for (var i = 0; i < this.vitrines.length; ++i) {
-            this.vitrines[i].serveStatic(app, this.rootDirectory);
+    function serveStatic(app) {
+        for (var i = 0; i < self.vitrines.length; ++i) {
+            self.vitrines[i].serveStatic(app);
         }
-    };
-    this.route = function (app) {
-        for (var i = 0; i < this.vitrines.length; ++i) {
-            this.vitrines[i].route(app);
+    }
+
+    function route(app) {
+        for (var i = 0; i < self.vitrines.length; ++i) {
+            self.vitrines[i].route(app);
         }
-    };
+    }
 
     loadAllVitrines(this.vitrines);
 }
 
-module.exports = function () {
-    return new Vitrines();
-};
+module.exports = new Vitrines();
