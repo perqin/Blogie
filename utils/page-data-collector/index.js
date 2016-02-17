@@ -15,8 +15,7 @@ function Collectee(d) {
     }
 
     function themeIt(theme, css) {
-        //cee.data.themeCss = 'themes/material-design/css/theme.css';
-        cee.data[css + 'Css'] = 'themes/' + theme + '/css/' + css + '.css';
+        cee.data[css + 'Css'] = '/themes/' + theme + '/css/' + css + '.css';
         return cee;
     }
 

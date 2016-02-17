@@ -2,7 +2,6 @@
 Vitrines are modules that organize data and render page displaying data.
 Post is a built-in vitrine which make Blogie a blog system.
  */
-var path = require('path');
 
 function loadAllVitrines(vs) {
     // add all vitrines
